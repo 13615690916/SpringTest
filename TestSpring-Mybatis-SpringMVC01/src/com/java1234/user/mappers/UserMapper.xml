@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">   
+
+ <!--  namespace：必须与对应的接口全类名一致
+	id:必须与对应接口的某个对应的方法名一致 -->
+  
+  <mapper namespace="com.java1234.user.mappers.UserMapper">
+  	
+  	<!-- 定义sql片段
+  	id:唯一标识
+  	经验：基于单表定义sql片段
+  	在sql片段中不要包含where
+  	 -->
+  	<sql id="query_where_and">
+  		<if test="username!=null">and user_name like %${username}% </if>
+  		<if test="password!=null">and password=#{password}</if>
+  		<if test="ids!=null">
+  		<!-- 使用foreach 遍历传入ids collection:指定输入对象中集合属性  item:每个遍历生成对象中  open:开始遍历时拼接串
+  		close：结束遍历时拼接的串   separator：遍历的两个对象中需要拼接的串
+  		 -->
+  		 <!-- and (id=1 or id=10 or id=16 ) -->
+  			<foreach collection="ids" item="user_id" open="and (" close=")"  separator="or">
+  				id=#{user_id}
+  			</foreach>
+  		</if>
+  		<!-- 
+  		and id in(1,2,3)
+  		<foreach collection="ids" item="user_id" open="and id in(" close=")"  separator=",">
+  				#{user_id}
+  			</foreach>
+-->
+  	</sql>
+  	
+  	<select id="getUserByUserName"  resultType="com.java1234.user.model.User">
+  		select * from t_user where user_name=#{userName};
+  	</select>
+  	
+  	<select id="getAlList" resultType="com.java1234.user.model.User"> 
+  		select * from t_user;
+  	</select>
+  	
+  	<insert id="insertUser" parameterType="String" >
+  		insert into t_user set user_name=#{userName},password=#{passWord};
+  	</insert>
+  	
+  	<select id="findByPage" parameterType="int" resultType="com.java1234.user.model.User">
+  		select * from t_user 
+  		<if test="start!=null and size!=null">
+  			limit #{start},#{size}
+  		</if>
+  	</select>
+  	
+  	<!-- 
+  	<resultMap type="" id="">
+  		<id column="" property=""/>
+  		<result column="" property=""/>
+  		
+  		对象的映射   javaType=""
+  		<association property="" javaType="">
+  			<id column="" property=""/>
+  			<result column="" property=""/>
+  		</association>
+  		映射到集合   ofType=""
+  		<collection property="" ofType="">
+  			<id column="" property=""/>
+  			<result column="" property=""/>
+  		</collection>
+  	</resultMap>
+  	 -->
+  	<!-- <select id="">
+  		select * from t_user
+  		where 能够自动去掉第一个and
+  	<where>
+  	引用sql片段 如果refid不在本mapper文件中 ，那么需要前边加命名空间
+  		<include refid="query_where_and"></include>
+  	</where>
+  	</select> -->
+  	
+  </mapper>

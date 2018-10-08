@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd"
+        default-autowire="constructor">
+
+	<!-- 通过属性进行注入 -->
+	<bean id="people1" class="com.java1234.entity.People">
+		<property name="id" value="1"></property>
+		<property name="name" value="aa"></property>
+		<property name="age" value="11"></property>
+		
+	</bean>
+
+	<bean id="dog" class="com.java1234.entity.Dog">
+		<property name="name" value="bob"></property>
+	</bean>
+	
+	
+</beans>

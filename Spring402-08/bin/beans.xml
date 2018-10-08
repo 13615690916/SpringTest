@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- 抽象bean -->
+	<bean id="abstractPeople" class="com.java1234.entity.People"
+		abstract="true">
+		<property name="className" value="高三五班"></property>
+		<property name="age" value="19"></property>
+	</bean>
+	<!-- 继承抽象bean -->                             <!-- 依赖关系 -->
+	<bean id="zhangsan" parent="abstractPeople" depends-on="autority">
+		<property name="id" value="1"></property>
+		<property name="name" value="张三"></property>
+		<property name="dog" ref="dog"></property>
+	</bean>
+
+	<bean id="autority" class="com.java1234.service.Authority">
+	</bean>
+
+	<bean id="dog" class="com.java1234.entity.Dog" scope="prototype">
+		<property name="name" value="bob"></property>
+	</bean>
+
+	<bean id="lisi" parent="abstractPeople">
+		<property name="id" value="2"></property>
+		<property name="name" value="李四"></property>
+		<property name="age" value="20"></property>
+	</bean>
+
+	<!-- 通过属性进行注入 -->
+	<bean id="people1" class="com.java1234.entity.People">
+		<property name="id" value="1"></property>
+		<property name="name" value="aa"></property>
+		<property name="age" value="11"></property>
+	</bean>
+
+</beans>
